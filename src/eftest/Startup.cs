@@ -30,8 +30,7 @@ namespace eftest
         public void ConfigureServices(IServiceCollection services)
         {
             // add entity framework using the config connection string
-            services.AddEntityFramework()
-                .AddSqlServer()
+            services.AddEntityFrameworkSqlServer()
                 .AddDbContext<ApplicationDbContext>(options =>
                     options.UseSqlServer("Server=localhost;Database=eftest;Trusted_Connection=True;MultipleActiveResultSets=true;"));
 
@@ -51,9 +50,9 @@ namespace eftest
             //IDatabaseInitializer databaseInitializer,
             ILoggerFactory loggerFactory)
         {
-            var factory = app.ApplicationServices.GetRequiredService<ILoggerFactory>();
+            var factory = (ILoggerFactory)app.ApplicationServices.GetService(typeof(ILoggerFactory));
             factory.AddConsole(minLevel: LogLevel.Debug);
-            factory.AddDebug(minLevel: LogLevel.Debug);
+            //factory.AddDebug(minLevel: LogLevel.Debug);
 
             app.UseDeveloperExceptionPage();
 
